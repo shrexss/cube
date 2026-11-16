@@ -1,11 +1,11 @@
 mod vec3;
-mod coords;
+mod axis;
 mod colors;
 mod camera;
 mod cube;
 
 use vec3::Vec3;
-use coords::Coords;
+use axis::Axis;
 use colors::Colors;
 use camera::Camera;
 use cube::Cube;
@@ -38,10 +38,10 @@ fn draw_line(buf: &mut [u32], w: usize, h: usize, a: (i32, i32), b: (i32, i32), 
 }
 
 fn main() {
-    // CREATE COORDS
-    let x_axis = Coords::new(Vec3::new(1.5, 0.0, 0.0), Colors::RED);
-    let y_axis = Coords::new(Vec3::new(0.0, 1.5, 0.0), Colors::GREEN);
-    let z_axis = Coords::new(Vec3::new(0.0, 0.0, 1.5), Colors::BLUE);
+    // CREATE AXES
+    let x_axis = Axis::new(Vec3::new(1.5, 0.0, 0.0), Colors::RED);
+    let y_axis = Axis::new(Vec3::new(0.0, 1.5, 0.0), Colors::GREEN);
+    let z_axis = Axis::new(Vec3::new(0.0, 0.0, 1.5), Colors::BLUE);
     let axes = [&x_axis, &y_axis, &z_axis];
 
     // CREATE CAMERA
@@ -51,7 +51,7 @@ fn main() {
     let mut last_mouse: Option<(f32, f32)> = None;
 
     // CREATE CUBE
-    let mut cube = Cube::new();
+    let cube = Cube::new();
 
     // CREATE BUFFER
     let mut buffer: Vec<u32> = vec![0; WIDTH * HEIGHT];
@@ -63,7 +63,7 @@ fn main() {
         HEIGHT, 
         WindowOptions::default()
     ).expect("could not create window");
-
+    window.set_target_fps(120);
 
     // MAIN LOOP
     while window.is_open() && !window.is_key_down(Key::Escape){
